@@ -3,8 +3,14 @@ const express = require('express');
 const morgan = require('morgan');  
 const app = express();
 
-app.use(express.json());  // Enable JSON body parsing
-app.use(morgan('tiny'));  // Use Morgan with 'tiny' config
+// Custom Morgan token for logging request bodies
+morgan.token('body', (req) => {
+    // Only stringify the body if it's not empty to avoid logging empty objects on GET requests
+    return Object.keys(req.body).length ? JSON.stringify(req.body) : '';
+});
+
+app.use(express.json());
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'));
 
 let persons = [
     { id: "1", name: "Arto Hellas", number: "040-123456" },
