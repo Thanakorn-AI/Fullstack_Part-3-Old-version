@@ -1,9 +1,10 @@
 // phonebook-backend/index.js
 const express = require('express');
+const morgan = require('morgan');  
 const app = express();
 
-// Enable JSON body parsing
-app.use(express.json());
+app.use(express.json());  // Enable JSON body parsing
+app.use(morgan('tiny'));  // Use Morgan with 'tiny' config
 
 let persons = [
     { id: "1", name: "Arto Hellas", number: "040-123456" },
